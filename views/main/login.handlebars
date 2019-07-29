@@ -1,0 +1,164 @@
+<div data-user-id="{{userId}}" data-user-name="{{userName}}" data-user-status="{{userStatus}}" data-company-name="{{companyName}}">
+	<div id="loginpage">
+		<div class="login-form">
+			<div>
+			<h1 id="main-heading"> Compliance Manager </h1>
+				<h4>{{message}}</h4>
+			    <div class="login-block">
+			        <label for="email">Email <div v-show="loading" class="spinner login-spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div></label>
+
+			        <div>
+			            <input id="login-email" v-model="email" type="text" name="email"  autocomplete="off" value="" class="form-control">
+			        </div>
+			    </div>
+			    <div class="login-block" v-if="!firstTime">
+			        <label for="password">Password</label>
+			        <div>
+			            <input id="login-password" v-model="password" type="password"  value="" autocomplete="off" name="password" class="form-control">
+			        </div>
+			    </div>
+			    <div class="login-block">
+			        <div class="login-button-block">
+			            <button v-if="!firstTime" :disabled="disabled" v-on:click="login" class="btn btn-sm btn-primary" id="login-btn">LOGIN </button>  
+			            <button v-if="firstTime" :disabled="disabled" v-on:click="checkUser" class="btn btn-sm btn-primary">Set up account </button>  
+			        </div>
+			    </div>
+			    <div class="login-block">
+			        <div class="login-links">
+			            <span v-on:click="forgot" class="login-action">Forgot password</span>
+			            <span v-on:click="firstTimeUser" v-if="!firstTime" class="login-action">First Time User</span>
+			            <span v-on:click="firstTimeUser" v-if="firstTime" class="login-action">Back To Login</span>
+			            <a href="/noauth#/trade-requests">Trade Request</a>
+			        </div>
+			            <h4 id="login-error" v-html="error" class="text-danger"></h4>
+			        <!-- <div>
+			            <div >
+			                <p data-toggle="modal" data-target="#newuser"><a href='#'>Register</p>
+			            </div>
+			        </div> -->
+			    </div>
+
+		</div>
+		
+		<div id="newuser" class="modal fade" role="dialog">
+		    <div class="modal-dialog">
+		        <div class="modal-content">
+		            <div class="modal-body">
+		            	<div class="form-horizontal">
+		            		<div class="form-group">
+		            		    <label class="col-lg-4 control-label" for="username">Email</label>
+		            		    <div class="col-lg-6">
+		            		        <input type="text" v-model="newUser.email" name="email" class="form-control">
+		            		    </div>
+		            		</div>
+		            		
+		            		<div class="form-group">
+		            		    <label class="col-lg-4 control-label" for="password">Password</label>
+		            		    <div class="col-lg-6">
+		            		        <input type="password" v-model="newUser.password" name="password" class="form-control">
+		            		    </div>
+		            		</div>
+
+		            		<div class="form-group">
+		            		    <label class="col-lg-4 control-label" for="confirm password">Confirm password</label>
+		            		    <div class="col-lg-6">
+		            		        <input type="password" v-model="newUser.confirmPassword" name="password" class="form-control">
+		            		    </div>
+		            		</div>
+
+		            		<div class="form-group">
+		            		    <label class="col-lg-4 control-label" for="name">Company</label>
+		            		    <div class="col-lg-6">
+		            		        <input type="text" v-model="company.name" name="name" class="form-control">
+		            		    </div>
+		            		</div>
+
+		            		<div class="form-group">
+		            		    <label class="col-lg-4 control-label" for="subdomain">Domain</label>
+		            		    <div class="col-lg-6">
+		            		        <input type="text" v-model="company.subdomain" name="subdomain" class="form-control">
+		            		    </div>
+		            		</div>
+
+		            		<div class="form-group">
+		            		    <div class="col-lg-6 col-lg-offset-4">
+		            		        <button v-bind:disabled="disabled" v-on:click.stop="register" class="btn btn-primary">Register</button>
+		            		    </div>
+		            		</div>
+		            		<h4 v-text="error" class="text-danger"></h4>
+		            	</div>
+		                
+		            </div>
+		            <div class="modal-footer">
+		                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		            </div>
+		        </div>
+		    </div>
+
+		</div>
+
+		<div class="modal" id="ipModal" role="dialog">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-body">
+		        <h3>Unrecognised Login</h3> 
+		        <h4>You have logged in from an unrecognised IP address.<br>An email has been sent to your registered address. Please click on the link provided and login again.</h4>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">OK</button>
+		      </div>
+		    </div>
+		    
+		  </div>
+		</div>
+
+		<div class="modal" id="firstIpModal" role="dialog">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-body">
+		        <h3>Login Verification</h3> 
+		        <h4>Please verify your account by clicking on the link sent to your email. This is a one-time verification only.</h4>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">OK</button>
+		      </div>
+		    </div>
+		    
+		  </div>
+		</div>
+		<div id="forgot" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="form-horizontal" role="form" action="/forgot" method="post">
+                            <div class="form-group">
+                                <label class="col-lg-4 control-label" for="username">Enter your work email</label>
+                                <div class="col-lg-6">
+                                    <input type="text" v-model="userEmail" name="username" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-6 col-lg-offset-4">
+                                    <button v-bind:disabled="disabled" v-on:click.stop="forgot" class="btn btn-primary">Reset</button>
+                                </div>
+                            </div>
+                            <h4 v-text="error" class="text-danger"></h4>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="notification-console">
+          <p v-text="msg"></p>
+        </div>
+	</div>
+</div>
+<script src="/public/js/modules/jquery.min.js"></script>
+<script src="/public/js/modules/bootstrap-select.min.js"></script>
+<script src="/scripts/vue/dist/vue.js"></script>
+<script src="/scripts/vue-resource/dist/vue-resource.js"></script>
+<script src="/public/js/app/login.js"></script>

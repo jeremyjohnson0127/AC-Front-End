@@ -1,0 +1,23 @@
+<div class="error-page">
+	<div class="error-wrapper">
+		<img class="pic" src="/public/images/aclogo.png">
+		<div class="error-text">
+			<h2>We're sorry but this page does not exist.</h2> 
+			{{#if companyPage}}
+				<h3>Here are some links that might be helpful:</h3>
+			{{else}}
+				<h3>You can head over to our homepage here</h3>
+			{{/if}}
+			
+			<div class="links">
+				<ul>
+					{{#if companyPage}}
+					<li><a href="{{companyPage}}">Company page</a></li>
+					<li><a href="{{staffPage}}">Staff page</a></li>
+					{{/if}}
+					<li><a href="/login">www.alphacalibration.com</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
