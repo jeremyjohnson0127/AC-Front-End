@@ -1,0 +1,5 @@
+@font-face {  
+    font-family: "Charter";  
+    src: url( fonts/charter-itc-regular-589ce3ac6f66f-webfont.eot ); /* IE */  
+    src: local("Charter"), url("fonts/charter-itc-regular-589ce3ac6f66f-webfont.TTF") format("truetype"); /*non-IE*/  
+}
