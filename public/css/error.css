@@ -1,0 +1,33 @@
+.error-page {
+    margin: 5% auto 0;
+}
+.error-wrapper {
+	width: 40%;
+	margin: 0 auto;
+}
+.success-wrapper {
+	width: 40%;
+	margin: 5% auto;
+}
+
+.error-page .pic, .success-wrapper .pic {
+    width: 50%;
+    margin: 0 auto;
+    display: block;
+}
+
+.error-text {
+	text-align: center;
+}
+
+.links ul {
+	margin: 0;
+	padding: 0;
+	text-decoration: none;
+	list-style-type: none;
+	font-size: 16px;
+}
+
+.no-scroll {
+	overflow: hidden;
+}
