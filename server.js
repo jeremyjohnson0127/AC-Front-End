@@ -101,4 +101,5 @@ function start(_port) {
 registerHtmlExtensions(options.html_extensions);
 registerPublicFolder(options.public_path, options.livereload, null);
 registerRedirectionsRules(options.redirection_rules);
+	
 start(options.port);
