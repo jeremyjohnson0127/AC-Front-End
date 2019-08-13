@@ -1,0 +1,1 @@
+console.error("Error: Parsing file /Users/a1/Desktop/alphacalibration/public/development/src/main.js: 'import' and 'export' may appear only with 'sourceType: module' (6:0)");
